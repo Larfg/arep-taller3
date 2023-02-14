@@ -18,7 +18,14 @@ public class App {
     static HttpServer httpServer = HttpServer.getInstance();
     static Map<String,Service> services = new HashMap();
     public static void main(String[] args) throws IOException {
-        //mySpark.get("/",  (req,res) -> req.toString());
+        mySpark.get("",  (req,res) -> {
+            Service service = new WebService();
+            return service;
+        });
+        mySpark.get("search",(req,res) -> {
+            Service service = new SearchService();
+            return service;
+        });
         services.put("", new WebService());
         services.put("search", new SearchService());
         httpServer.run(args,services);

@@ -8,7 +8,7 @@ import edu.escuelaing.app.services.Service;
 public class mySpark {
     static Map<String, RequestResponse> gets = new HashMap<String, RequestResponse>();
 
-    interface RequestResponse{
+    public interface RequestResponse{
         Object process(Request request, Response response);
     }
 

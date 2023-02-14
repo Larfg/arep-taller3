@@ -3,6 +3,7 @@ package edu.escuelaing.app;
 import java.net.*;
 import java.io.*;
 import java.util.Map;
+import java.util.Timer;
 
 import edu.escuelaing.app.services.FileReader;
 import edu.escuelaing.app.services.NotFoundService;
@@ -57,15 +58,21 @@ public final class HttpServer {
                     new InputStreamReader(
                             clientSocket.getInputStream()));
             String inputLine, outputLine;
+            String url ="";
             String path = "";
+            Timer timer = new Timer(1000, new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Tu Codigo
+                }
+            });
             while ((inputLine = in.readLine()) != null) {
+                url += inputLine + "\n";
                 if (inputLine.startsWith("GET")) {
                     path = inputLine.split(" ")[1];
                 }
-                if (!in.ready()) {
-                    break;
-                }
             }
+            System.out.println(url);
             Service servicio = new NotFoundService();
             if (path.contains("/apps/")) {
                 if (services.keySet().contains(path.replace("/apps/", "").replace("/", ""))){
