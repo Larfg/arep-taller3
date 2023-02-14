@@ -67,8 +67,10 @@ public final class HttpServer {
                 }
             }
             Service servicio = new NotFoundService();
-            if (services.keySet().contains(path.replace("/", ""))){
-                servicio = services.get(path.replace("/", ""));
+            if (path.contains("/apps/")) {
+                if (services.keySet().contains(path.replace("/apps/", "").replace("/", ""))){
+                    servicio = services.get(path.replace("/apps/", "").replace("/", ""));
+                }
             }
             else if (path.contains("/file/")){
                 servicio = new FileReader(path);

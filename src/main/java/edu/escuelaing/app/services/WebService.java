@@ -46,7 +46,7 @@ public class WebService implements Service{
         "        <body>"+
         "            <div class=\"header\">"+
         "            <h3>PAGINA PRINCIPAL</h3>"+
-        "            </div>"+ "<p>Paths disponibles: /search/</p>"+
+        "            </div>"+ "<p>Paths disponibles: /apps/search/</p>"+
         "        </body>"+
         "        </html>";
     }

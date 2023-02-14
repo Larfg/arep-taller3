@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.escuelaing.app.mySpark.mySpark;
 import edu.escuelaing.app.services.SearchService;
 import edu.escuelaing.app.services.Service;
 import edu.escuelaing.app.services.WebService;
@@ -17,6 +18,7 @@ public class App {
     static HttpServer httpServer = HttpServer.getInstance();
     static Map<String,Service> services = new HashMap();
     public static void main(String[] args) throws IOException {
+        //mySpark.get("/",  (req,res) -> req.toString());
         services.put("", new WebService());
         services.put("search", new SearchService());
         httpServer.run(args,services);
