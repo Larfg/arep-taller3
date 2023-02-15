@@ -3,22 +3,25 @@ package edu.escuelaing.app;
 import java.net.*;
 import java.io.*;
 import java.util.Map;
-import java.util.Timer;
 
+import edu.escuelaing.app.mySpark.Request;
+import edu.escuelaing.app.mySpark.MySpark;
 import edu.escuelaing.app.services.FileReader;
 import edu.escuelaing.app.services.NotFoundService;
 import edu.escuelaing.app.services.Service;
 
 /**
  * Servidor ws que nos permite enviar y recibir elementos por ws
+ * 
  * @author Luis Felipe Giraldo Rodriguez
  * @version 1.0
  */
 public final class HttpServer {
     private static HttpServer instance;
-    
+
     /**
      * Retorna la instancia del servidor, en caso de que no exista lo crea
+     * 
      * @return instancia del servidor
      */
     public static HttpServer getInstance() {
@@ -29,7 +32,9 @@ public final class HttpServer {
     }
 
     /**
-     * Metodo principal que nos inicia un servidor socket http, junto a unos servicios determinados
+     * Metodo principal que nos inicia un servidor socket http, junto a unos
+     * servicios determinados
+     * 
      * @param args
      * @param services mapa de servicios que vamos a utilizar
      * @throws IOException
@@ -53,34 +58,37 @@ public final class HttpServer {
                 System.err.println("Accept failed.");
                 System.exit(1);
             }
+
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(
                             clientSocket.getInputStream()));
             String inputLine, outputLine;
-            String url ="";
-            String path = "";
-            Timer timer = new Timer(1000, new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Tu Codigo
+
+            String headerLine = "";
+            while ((inputLine = in.readLine())!= null){
+                if (inputLine.length() == 0){
+                    break;
                 }
-            });
-            while ((inputLine = in.readLine()) != null) {
-                url += inputLine + "\n";
-                if (inputLine.startsWith("GET")) {
-                    path = inputLine.split(" ")[1];
-                }
+                headerLine += inputLine + "\r\n";
             }
-            System.out.println(url);
+
+            StringBuilder body = new StringBuilder();
+            while(in.ready()){
+                body.append((char) in.read());
+            }
+
+            Request request = new Request(headerLine, body.toString());
+            String uri = request.getUri();
             Service servicio = new NotFoundService();
-            if (path.contains("/apps/")) {
-                if (services.keySet().contains(path.replace("/apps/", "").replace("/", ""))){
-                    servicio = services.get(path.replace("/apps/", "").replace("/", ""));
+            if (MySpark.isMapped(uri)) {
+                Object response = MySpark.getGet(uri, request, null);
+                if (response instanceof Service) {
+                    servicio = (Service) response;
                 }
             }
-            else if (path.contains("/file/")){
-                servicio = new FileReader(path);
+            if (uri.contains("/file/")) {
+                servicio = new FileReader(uri);
             }
             outputLine = servicio.getHeader() + servicio.getBody();
             out.println(outputLine);

@@ -10,7 +10,8 @@ import java.nio.file.*;
  * @version 1.0
  */
 public class FileReader implements Service {
-    private static String HOME = System.getProperty("user.home");
+    //private static String HOME = System.getProperty("user.home");
+    private static String HOME = ".";
     String type;
     String file;
 
@@ -33,7 +34,7 @@ public class FileReader implements Service {
             try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(filePath)) {
                 for (Path files : directoryStream) {
                     if (!Files.isHidden(files)) {
-                        fileNames += "\r\n" + files.toString().replace(HOME, "") + "<br>";
+                        fileNames += "\r\n" + files.toString().replaceFirst(HOME, "") + "<br>";
                     }
                 }
             } catch (IOException ex) {
@@ -56,7 +57,7 @@ public class FileReader implements Service {
                     try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(filePath)) {
                         for (Path files : directoryStream) {
                             if (!Files.isHidden(files)) {
-                                fileNames += "\r\n" + files.toString().replace(HOME, "") + "<br>";
+                                fileNames += "\r\n" + files.toString().replaceFirst(HOME, "") + "<br>";
                             }
                         }
                     } catch (IOException ex) {
