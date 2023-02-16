@@ -5,6 +5,8 @@ import java.io.*;
 import java.util.Map;
 
 import edu.escuelaing.app.mySpark.Request;
+import edu.escuelaing.app.mySpark.Response;
+import edu.escuelaing.app.mySpark.CreatedResponse;
 import edu.escuelaing.app.mySpark.MySpark;
 import edu.escuelaing.app.services.FileReader;
 import edu.escuelaing.app.services.NotFoundService;
@@ -66,35 +68,46 @@ public final class HttpServer {
             String inputLine, outputLine;
 
             String headerLine = "";
-            while ((inputLine = in.readLine())!= null){
-                if (inputLine.length() == 0){
+            while ((inputLine = in.readLine()) != null) {
+                if (inputLine.length() == 0) {
                     break;
                 }
                 headerLine += inputLine + "\r\n";
             }
 
             StringBuilder body = new StringBuilder();
-            while(in.ready()){
+            while (in.ready()) {
                 body.append((char) in.read());
             }
-
             Request request = new Request(headerLine, body.toString());
-            String uri = request.getUri();
-            Service servicio = new NotFoundService();
-            if (MySpark.isMapped(uri)) {
-                Object response = MySpark.getGet(uri, request, null);
-                if (response instanceof Service) {
-                    servicio = (Service) response;
+            System.out.println("largo"+request.toString().length());
+            if (request.toString().length() > 3) {
+                Service service = new NotFoundService();
+                String uri = request.getUri();
+                if (Boolean.TRUE.equals(MySpark.isMapped(uri))) {
+                    Object response = null;
+                    if (request.getMethod().equals("GET")) {
+                        response = MySpark.getGet(uri, request, null);
+                    } else {
+                        response = MySpark.getPost(uri, request, null);
+                    }
+                    if (response instanceof Service) {
+                        service = (Service) response;
+                    } else if (response instanceof Response) {
+                        service = ((Response) response).responseToService();
+                    }
                 }
+                if (uri.contains("/file/")) {
+                    service = new FileReader(uri);
+                }
+                System.out.println(service.getHeader() + service.getBody());
+                outputLine = service.getHeader() + service.getBody();
+                out.println(outputLine);
             }
-            if (uri.contains("/file/")) {
-                servicio = new FileReader(uri);
-            }
-            outputLine = servicio.getHeader() + servicio.getBody();
-            out.println(outputLine);
             out.close();
             in.close();
             clientSocket.close();
+
         }
         serverSocket.close();
         System.out.println("Servidor apagado.");

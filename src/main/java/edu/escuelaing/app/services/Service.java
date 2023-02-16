@@ -6,6 +6,10 @@ package edu.escuelaing.app.services;
  * @version 1.0
  */
 public interface Service {
+    public static final String HTML_HEADER = "HTTP/1.1 200 OK\r\n"
+    + "Access-Control-Allow-Origin: *\r\n"
+    + "Content-Type:text/html \r\n"
+    + "\r\n";
     /**
      * Retorna el encabezado de una petición HTTP
      * @return Encabezado del HTTP

@@ -8,10 +8,7 @@ package edu.escuelaing.app.services;
 public class SearchService implements Service{
 
     public String getHeader(){
-        return "HTTP/1.1 200 OK\r\n"
-        + "Access-Control-Allow-Origin: *\r\n"
-        + "Content-Type:text/html \r\n"
-        + "\r\n";
+        return Service.HTML_HEADER;
     }
 
     public String getBody(){

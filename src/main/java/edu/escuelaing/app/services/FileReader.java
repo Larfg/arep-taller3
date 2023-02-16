@@ -85,10 +85,7 @@ public class FileReader implements Service {
     public String getHeader() {
         switch (type) {
             case "html": {
-                return "HTTP/1.1 200 OK\r\n"
-                        + "Access-Control-Allow-Origin: *\r\n"
-                        + "Content-Type:text/html \r\n"
-                        + "\r\n";
+                return Service.HTML_HEADER;
             }
             case "js": {
                 return "HTTP/1.1 200 OK\r\n"

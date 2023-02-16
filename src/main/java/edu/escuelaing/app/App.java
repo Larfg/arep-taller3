@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.escuelaing.app.mySpark.CreatedResponse;
 import edu.escuelaing.app.mySpark.MySpark;
+import edu.escuelaing.app.services.BlogService;
 import edu.escuelaing.app.services.SearchService;
 import edu.escuelaing.app.services.Service;
 import edu.escuelaing.app.services.WebService;
@@ -26,6 +28,16 @@ public class App {
             Service service = new SearchService();
             return service;
         });
+        MySpark.get("/apps/blog",(req,res)->{
+            Service service = BlogService.getInstance();
+            return service;
+        });
+        MySpark.post("/apps/blog", (req,res) ->{
+            BlogService service = BlogService.getInstance();
+            service.addToMessage(req.getBody());
+            System.out.println(service.getBody());
+            return new CreatedResponse();
+        } );
         httpServer.run(args,services);
     }
 }
