@@ -1,71 +1,47 @@
-# Taller 2: Taller diseño y estructuración de aplicaciones distribuidas en internet  
+# Taller 3: Microframeworks WEB 
 
-  
+## Diseño y descripción del diseño:   
 
-## Diseño y descripción del diseño:  
+Para este taller modificamos el servidor del taller 2, para que, en vez de invocar servicios con la uri, podemos invocar servicios por métodos HTTP, como lo son post y get. Otro objetivo del taller simular la biblioteca SPARK, biblioteca que nos permite mapear solicitudes con funciones lambdas, es decir mapear a una solicitud HTTP el comportamiento que queramos. 
+En el desarrollo se modificó el laboratorio anterior para que pueda funcionar con el nuevo sistema, además se cambió la búsqueda de archivos, para que no sean en todo el disco local, sino que sea dentro del path relativo del proyecto. 
+Todo el taller se realizó sin ningún framework, utilizando las librerías de java.   
+Los elementos HTML ya no se encuentran grabados en el código, sino están como archivos estáticos dentro del proyecto. 
 
-Para este taller modificamos el servidor del taller 1, de tal manera que podamos acceder a distintos servicios a partir de un path en la URL, además implementamos un servicio que permite leer el disco local en el cual se está ejecutando el servidor, nos permite leer varios tipos de archivos, por último, creamos un cliente web para realizar la búsqueda en el disco duro. 
+### Extensibilidad   
 
-Todo el taller se realizó sin ningún framework, utilizando las librerías de java. 
+Para asegurar la extensibilidad se utilizó un sistema de mapeo en donde fácilmente a partir de una función, a una petición se le puede asignar el comportamiento que se quiera por medio de una función lambda. 
 
-El cliente web se integró dentro del primer reto del laboratorio, es decir que se incluyó como un servicio dentro del servidor al cual podemos acceder por un path. 
+### Uso de patrones   
 
-  
+Utilizamos un patrón **SINGLETON** para asegurarnos de que solo exista una instancia del servidor y del blog servicie, y usamos un patrón **ABSTRACT FACTORY** a la hora de manejar nuestros servicios.   
 
-Este taller se construyó con una arquitectura de aplicaciones distribuidas, donde tenemos varios servicios de fácil acceso y modulares dentro de nuestra aplicación. 
+### Modularidad   
 
-  
+Al tener un microframework que nos permite inyectar fácilmente comportamientos de una request, satisfacemos la modularidad.   
 
-### Extensibilidad  
+## Prerrequisitos:   
 
-Para asegurar la extensibilidad se utilizó la interfaz de servicio la que nos permite una estructura de retorno de un mensaje HTTP con header y body, estructura que nos permite inyectar los servicios que deseemos en cualquier momento. 
+Debe tener java, Maven, Postman para el manejo de solicitudes, y un navegador web, preferiblemente Firefox.  
 
-  
 
-### Uso de patrones  
+## Instalación:   
 
-Utilizamos un patrón **SINGLETON** para asegurarnos de que solo exista una instancia del servidor y usamos un patrón **ABSTRACT FACTORY** a la hora de manejar nuestros servicios.  
+Clone el repositorio.  
 
-  
+## Realizando pruebas:   
 
-### Modularidad  
+Para probar el funcionamiento del servidor podemos acceder directamente al localhost:35000 desde nuestro navegador, principalmente al path /apps/, en donde se ven los distintos servicios a los cuales podemos acceder desde el navegador cambiando la URI, igualmente estos servicios son, página principal (http://localhost:35000/apps/), página de búsqueda de archivos estáticos (http://localhost:35000/apps/search) y por último página de blog (http://localhost:35000/apps/blog). Esta es una forma vistosa de probar las solicitudes get, ya que el navegador realiza está solicitud siempre que se realiza una búsqueda. 
+Si desea ser más específico puede utilizar postman, a todas las uris listadas anteriormente se les puede realizar un get, retornando los elementos de las páginas web, lo más importante de utilizar postman es la posibilidad de mandar texto por un post al servicio de blog, los invitamos a intentarlo y comprobar que se actualiza visitando nuevamente el servicio de blog en el navegador. 
 
-Al tener las aplicaciones distribuidas, podemos cambiar cualquiera de los elementos y estos tiene poca cohesión o ninguna cohesión entre los elementos (módulos), por ejemplo, podemos añadir un servicio cuando queramos, y utilizarlo fácilmente en la aplicación.  
+## Despliegue:   
 
-  
+- Para poder iniciar el servidor se puede iniciar por Maven, con el siguiente comando "mvn compile exec:java" o puede iniciarlo directamente con la clase ejecutiva del proyecto.   
+- Para probar los servicios pruebe el siguiente enlace después de ejecutar el servidor (http://localhost:35000/apps/).  
 
-## Prerrequisitos:  
+## Construido con:   
 
-Debe tener java, Maven y un navegador web, preferiblemente Firefox. 
+[Maven](https://maven.apache.org/) - Dependency Management     
 
-  
-
-## Instalación:  
-
-Clone el repositorio. 
-
-  
-
-## Realizando pruebas:  
-
-Para probar el funcionamiento del servidor creamos cliente web como servicio dentro de nuestro servidor, al cual puede acceder una vez funcione el servidor, con (http://localhost:35000/search/) y dentro presione buscar para mostrar las carpetas y archivos del usuario que esté ejecutando el servidor, a partir de estos puede explorar las carpetas y archivos que se muestren en el navegador, escribiendo el path que desee en el campo de bsqueda. También los invitamos a buscar cualquier path en el navegador, así no tenga servicio definido. 
-
-   
-
-## Despliegue:  
-
-- Para poder iniciar el servidor se puede iniciar por Maven, con el siguiente comando "mvn compile exec:java" o puede iniciarlo directamente con la clase ejecutiva del proyecto.  
-
-- Para probar los servicios pruebe el siguiente enlace después de ejecutar el servidor (http://localhost:35000/). 
-
-   
-
-## Construido con:  
-
-[Maven](https://maven.apache.org/) - Dependency Management    
-
-  
-
-## Autores:  
+## Autores:   
 
 - Luis Felipe Andres Giraldo Rodriguez 
