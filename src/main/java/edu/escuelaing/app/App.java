@@ -12,9 +12,9 @@ import edu.escuelaing.app.services.Service;
 import edu.escuelaing.app.services.WebService;
 
 /**
- * Clase main de nuestro servidor de servicios web.
+ * Clase main de nuestro servidor de solicitudes HTTP.
  * @author Luis Felipe Giraldo Rodriguez
- * @version 1.0
+ * @version 3.0
  */
 public class App {
     static HttpServer httpServer = HttpServer.getInstance();
@@ -35,7 +35,6 @@ public class App {
         MySpark.post("/apps/blog", (req,res) ->{
             BlogService service = BlogService.getInstance();
             service.addToMessage(req.getBody());
-            System.out.println(service.getBody());
             return new CreatedResponse();
         } );
         httpServer.run(args,services);

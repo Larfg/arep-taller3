@@ -4,6 +4,11 @@ import java.util.Map;
 
 import edu.escuelaing.app.services.Service;
 
+/**
+ * Estructura request HTTP en forma de clase
+ * @author Luis Felipe Giraldo Rodriguez
+ * @version 3.0
+ */
 public class Response {
     String body;
     String raw;
@@ -11,6 +16,9 @@ public class Response {
     String code;
     Map<String, String> headers;
 
+    /**
+     * Constructor donde podemos ingresar los datos individuales del response
+     */
     public Response(String body, String status, String code, Map<String, String> headers) {
         this.body = body;
         this.status = status;
@@ -18,6 +26,9 @@ public class Response {
         this.headers = headers;
     }
 
+    /**
+     * Constructor donde podemos ingresar headers y body del response
+     */
     public Response(String headers, String body) {
         raw = headers + "\r\n" + body;
         String[] headersList = headers.split("\r\n");
@@ -30,6 +41,10 @@ public class Response {
         }
     }
 
+    /**
+     * Mapeo de la clase response a la clase service, que utilizamos para mantener el formato de respuestas del sevidor
+     * @return
+     */
     public Service responseToService() {
         return new Service() {
             public String getHeader() {

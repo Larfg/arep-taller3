@@ -3,7 +3,7 @@ package edu.escuelaing.app.services;
 /**
  * Cliente de busqueda de archivos dentro del disco duro
  * @author Luis Felipe Giraldo Rodriguez
- * @version 1.0
+ * @version 3.0
  */
 public class SearchService implements Service{
 

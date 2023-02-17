@@ -3,7 +3,7 @@ package edu.escuelaing.app.services;
 /**
  * Servicio de pagina de busqueda no encontrada
  * @author Luis Felipe Giraldo Rodriguez
- * @version 1.0
+ * @version 3.0
  */
 public class NotFoundService implements Service{
     public String getHeader(){

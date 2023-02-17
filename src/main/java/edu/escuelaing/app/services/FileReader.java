@@ -7,7 +7,7 @@ import java.nio.file.*;
  * Servicio de lectura de archivos del disco duro
  * 
  * @author Luis Felipe Giraldo Rodriguez
- * @version 1.0
+ * @version 3.0
  */
 public class FileReader implements Service {
     //private static String HOME = System.getProperty("user.home");

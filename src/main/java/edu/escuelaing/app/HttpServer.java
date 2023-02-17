@@ -16,7 +16,7 @@ import edu.escuelaing.app.services.Service;
  * Servidor ws que nos permite enviar y recibir elementos por ws
  * 
  * @author Luis Felipe Giraldo Rodriguez
- * @version 1.0
+ * @version 3.0
  */
 public final class HttpServer {
     private static HttpServer instance;
@@ -34,8 +34,7 @@ public final class HttpServer {
     }
 
     /**
-     * Metodo principal que nos inicia un servidor socket http, junto a unos
-     * servicios determinados
+     * Metodo principal que nos inicia un servidor socket http, que procesa solicitudes post y get
      * 
      * @param args
      * @param services mapa de servicios que vamos a utilizar
@@ -67,6 +66,7 @@ public final class HttpServer {
                             clientSocket.getInputStream()));
             String inputLine, outputLine;
 
+            //Proceso de lectura de los datos header y body de una solicitud
             String headerLine = "";
             while ((inputLine = in.readLine()) != null) {
                 if (inputLine.length() == 0) {
@@ -74,13 +74,13 @@ public final class HttpServer {
                 }
                 headerLine += inputLine + "\r\n";
             }
-
             StringBuilder body = new StringBuilder();
             while (in.ready()) {
                 body.append((char) in.read());
             }
+
+            //Proceso de procesamiento de las solicitudes post y get
             Request request = new Request(headerLine, body.toString());
-            System.out.println("largo"+request.toString().length());
             if (request.toString().length() > 3) {
                 Service service = new NotFoundService();
                 String uri = request.getUri();
@@ -100,7 +100,6 @@ public final class HttpServer {
                 if (uri.contains("/file/")) {
                     service = new FileReader(uri);
                 }
-                System.out.println(service.getHeader() + service.getBody());
                 outputLine = service.getHeader() + service.getBody();
                 out.println(outputLine);
             }

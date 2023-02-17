@@ -3,7 +3,7 @@ package edu.escuelaing.app.services;
 /**
  * Servicio que nos devuelve una página de inicio
  * @author Luis Felipe Giraldo Rodriguez
- * @version 1.0
+ * @version 3.0
  */
 public class WebService implements Service{
 
